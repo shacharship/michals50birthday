@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFE & STYLE - מהדורת יובל 50 לאמא</title>
+    <!-- ייבוא גופנים -->
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: #fcfbfe;
+            color: #2c2533;
+            margin: 0;
+            padding: 0;
+            text-align: right;
+        }
+        
+        /* תפריט ניווט עליון בסגנון דיגיטלי נקי */
+        nav {
+            background-color: #3b2e4a;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        nav button {
+            background: none;
+            border: none;
+            color: #e6dfed;
+            font-size: 1rem;
+            font-family: 'Assistant', sans-serif;
+            font-weight: 600;
+            margin: 0 15px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        nav button:hover, nav button.active {
+            color: #d8b4e2;
+            border-bottom: 2px solid #d8b4e2;
+            padding-bottom: 2px;
+        }
+
+        /* כותרת מגזין ראשית (Header) בסגנון פרינט יוקרתי */
+        header {
+            border-bottom: 3px double #3b2e4a;
+            border-top: 3px double #3b2e4a;
+            padding: 25px 20px;
+            margin: 30px auto;
+            max-width: 850px;
+            background: #ffffff;
+            text-align: center;
+        }
+        .magazine-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #7a6e88;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            padding: 0 10px;
+        }
+        .magazine-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            letter-spacing: 6px;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #3b2e4a;
+        }
+        .magazine-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #6a587c;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        /* אזורי תוכן (עמודים) */
+        .page-section {
+            display: none;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 10px 20px 40px 20px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* עיצוב כתבה בסגנון עיתונאי */
+        .article-container {
+            background: #ffffff;
+            padding: 40px;
+            border: 1px solid #e3d9ed;
+            box-shadow: 0 8px 25px rgba(59, 46, 74, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .article-category {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #9f86c8;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .article-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #3b2e4a;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .article-standfirst {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: #6a587c;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            border-right: 4px solid #b19cd9;
+            padding-right: 15px;
+        }
+
+        .author-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f2eef7;
+            font-size: 0.95rem;
+            color: #7a6e88;
+        }
+
+        /* עיצוב תמונת השער מתוך הכתבה */
+        .hero-img-box {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #dcd2e8;
+            box-shadow: 0 10px 30px rgba(59, 46, 74, 0.12);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .hero-img-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 2px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .surprise-badge {
+            position: absolute;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(59, 46, 74, 0.9);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            pointer-events: none;
+            letter-spacing: 0.5px;
+            border: 1px solid #d8b4e2;
+        }
+
+        /* עיצוב גוף הכתבה (טקסטים) */
+        .article-body p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #4a3b5c;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .article-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #3b2e4a;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e3d9ed;
+            padding-bottom: 8px;
+        }
+
+        .pull-quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            color: #3b2e4a;
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px 40px;
+            border-top: 2px solid #b19cd9;
+            border-bottom: 2px solid #b19cd9;
+            background-color: #fcfbfe;
+        }
+
+        .home-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .home-btn {
+            background-color: #3b2e4a;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-family: 'Assistant', sans-serif;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(59, 46, 74, 0.2);
+            transition: all 0.3s ease;
+        }
+        .home-btn:hover {
+            background-color: #503f64;
+            transform: translateY(-2px);
+        }
+
+        /* עיצוב סרגל ציר הזמן (תקופות בחיים) */
+        .timeline-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 25px 0 15px 0;
+            flex-wrap: wrap;
+        }
+        .timeline-btn {
+            background-color: #fff;
+            color: #3b2e4a;
+            border: 1px solid #b19cd9;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Assistant', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(59, 46, 74, 0.05);
+        }
+        .timeline-btn:hover, .timeline-btn.active {
+            background-color: #3b2e4a;
+            color: #fff;
+            border-color: #3b2e4a;
+        }
+
+        .timeline-description {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: #6a587c;
+            margin-bottom: 30px;
+            min-height: 30px;
+        }
+
+        /* גלריית תמונות בסגנון אלבום פרינט */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        .gallery-item {
+            background: #fff;
+            padding: 12px;
+            border: 1px solid #e3d9ed;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(59, 46, 74, 0.05);
+            text-align: right;
+            transition: all 0.3s ease;
+        }
+        .gallery-img-container {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            border-radius: 2px;
+            margin-bottom: 12px;
+            background-color: #f4f0f8;
+            cursor: pointer;
+            position: relative;
+        }
+        .gallery-img-container img, .gallery-img-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-img-container:hover img {
+            transform: scale(1.03);
+        }
+        .gallery-img-container::after {
+            content: "🔍 הגדל";
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(59, 46, 74, 0.8);
+            color: #fff;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-img-container:hover::after {
+            opacity: 1;
+        }
+        .gallery-item p {
+            margin: 5px 0 0 0;
+            font-size: 0.95rem;
+            color: #4a3b5c;
+        }
+
+        /* חלון צפייה מוגדל (Lightbox Modal) */
+        #lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(44, 37, 51, 0.9);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        #lightbox-modal img {
+            max-width: 90%;
+            max-height: 80vh;
+            border: 4px solid #fff;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
+        #lightbox-caption {
+            color: #e6dfed;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.3s;
+        }
+        .lightbox-close:hover {
+            color: #d8b4e2;
+        }
+
+        /* ספר הברכות האינטראקטיבי */
+        .wishes-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        .wish-card {
+            background: #fff;
+            border-top: 4px solid #b19cd9;
+            border-left: 1px solid #e3d9ed;
+            border-right: 1px solid #e3d9ed;
+            border-bottom: 1px solid #e3d9ed;
+            padding: 24px;
+            width: 270px;
+            border-radius: 4px;
+            box-shadow: 0 6px 15px rgba(59, 46, 74, 0.05);
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .wish-card h4 {
+            margin: 0 0 12px 0;
+            color: #3b2e4a;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            border-bottom: 1px solid #f2eef7;
+            padding-bottom: 8px;
+        }
+        .wish-preview {
+            color: #554863;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        .wish-full {
+            display: none;
+            color: #554863;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            border-top: 1px dashed #d8b4e2;
+            padding-top: 10px;
+            font-size: 0.95rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .expand-btn {
+            background-color: #f7f5fa;
+            color: #3b2e4a;
+            border: 1px solid #b19cd9;
+            padding: 7px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Assistant', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            align-self: flex-start;
+        }
+        .expand-btn:hover {
+            background-color: #3b2e4a;
+            color: #fff;
+        }
+
+        /* עיצוב אזור סרטון הברכות בספר הברכות */
+        .wishes-video-section {
+            margin-top: 50px;
+            background: #ffffff;
+            border: 1px solid #e3d9ed;
+            padding: 30px;
+            border-radius: 6px;
+            box-shadow: 0 6px 20px rgba(59, 46, 74, 0.05);
+            text-align: center;
+        }
+        .wishes-video-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #3b2e4a;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .wishes-video-section p {
+            color: #7a6e88;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+        .video-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f4f0f8;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #dcd2e8;
+        }
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #3b2e4a;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #b19cd9;
+            display: inline-block;
+            padding-bottom: 5px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- תפריט ניווט עליון -->
+    <nav>
+        <button onclick="switchPage('home', document.getElementById('nav-home'))" id="nav-home" class="active">כתבת השער</button>
+        <button onclick="switchPage('gallery', document.getElementById('nav-gallery'))" id="nav-gallery">ציר זמן וגלריה</button>
+        <button onclick="switchPage('wishes', document.getElementById('nav-wishes'))" id="nav-wishes">ספר הברכות</button>
+    </nav>
+
+    <!-- כותרת מגזין ראשית -->
+    <header>
+        <div class="magazine-meta">
+            <span>גליון אוגוסט 2026</span>
+            <span>מהדורת יובל מיוחדת</span>
+            <span>מספר 50</span>
+        </div>
+        <h1 class="magazine-title">LIFE & STYLE</h1>
+        <div class="magazine-subtitle">המוסף המיוחד לחגיגות חצי המאה</div>
+    </header>
+
+    <!-- עמוד 1: כתבת השער -->
+    <div id="home" class="page-section active">
+        <div class="article-container">
+            <div class="article-category">פרופיל מיוחד • שער המגזין</div>
+            <h2 class="article-headline">האישה, האגדה והסטייל: חוגגים 50 שנה של קסם צרוף</h2>
+            <div class="article-standfirst">איך הופכים חצי מאה של חיים ליצירת אמנות אחת גדולה? מבט מעמיק אל תוך עולמה של אישה שמעניקה לכל יום צבע, חום ואלגנטיות שאין שניות לה.</div>
+            
+            <div class="author-box">
+                <span>מאת מערכת המגזין</span>
+                <span>•</span>
+                <span>אוגוסט 2026</span>
+            </div>
+
+            <div class="article-body">
+                <p>יש אנשים שעוברים דרך החיים, ויש כאלה שמותירים בה חותם בל יימחה. יש מי שסופרים שנים, ויש מי שסופרים רגעים של משמעות, צחוק, אהבה ענקית וסטייל בלתי מתפשר. השבוע, המגזין שלנו גאה להקדיש את המהדורה החגיגית והיוקרתית ביותר שלו לאישה אחת מיוחדת במינה שחוגגת יובל שלם של זוהר.</p>
+
+                <!-- תמונת השער האינטראקטיבית -->
+                <div class="hero-img-box" onclick="toggleSurprisePhoto()" title="לחצו להפתעה!">
+                    <img id="main-cover-img" src="https://i.postimg.cc/mkzmrfq9/1d74fc8a-f654-4a60-b19b-d3f3cf3e8368.jpg" alt="תמונת שער רגילה">
+                    <div class="surprise-badge" id="surprise-text">לחצו כאן להפתעה ✨</div>
+                </div>
+
+                <h3>הלב הפועם של המשפחה</h3>
+                <p>היא העוגן שמחזיק את הכל יחד, האוזן הקשובה לכל צרה, והרוח הפעילה שמניעה את הבית קדימה. לאורך כל תחנות החיים, מרגעים קטנים ועד לחגיגות הגדולות ביותר, היא הוכיחה שיופי אמיתי שזור בשילוב נדיר של חכמה, רגישות ועוצמה פנימית.</p>
+
+                <div class="pull-quote">
+                    "חצי מאה של חיוכים, של בית חם ושל אהבה שממלאה את כל החדר ברגע שהיא נכנסת אליו."
+                </div>
+
+                <h3>מביטים קדימה אל הפרק הבא</h3>
+                <p>כשאנו חוגגים היום 50 שנה של עשייה וקסם, ברור לכולנו שזה בסך הכל פרק נוסף במסע מרתק. אנחנו מוזמנים לעצור לרגע, לדפדף באלבום הזיכרונות, לקרוא את הברכות המרגשות מהאנשים היקרים לה מכל, ולהרים זכוכית לחיים טובים עוד יותר.</p>
+            </div>
+
+            <div class="home-buttons">
+                <button class="home-btn" onclick="switchPage('gallery', document.getElementById('nav-gallery'))">📸 מעבר לציר הזמן והגלריה</button>
+                <button class="home-btn" onclick="switchPage('wishes', document.getElementById('nav-wishes'))">💌 למעבר לספר הברכות</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- עמוד 2: ציר זמן וגלריית תמונות אינטראקטיבית -->
+    <div id="gallery" class="page-section">
+        <h2 class="section-title">ציר הזמן של החיים</h2>
+        <p style="color: #7a6e88; margin-bottom: 10px; text-align: center;">בחרי תקופה כדי לצלול אל תוך הזיכרונות (לחצו על תמונה להגדלה)</p>
+        
+        <!-- כפתורי ציר הזמן -->
+        <div class="timeline-nav">
+            <button class="timeline-btn active" onclick="filterGallery('all', this)">הכל מהכל ✨</button>
+            <button class="timeline-btn" onclick="filterGallery('youth', this)">נעורים ופעם 🌸</button>
+            <button class="timeline-btn" onclick="filterGallery('family', this)">המשפחה גדלה 🏡</button>
+            <button class="timeline-btn" onclick="filterGallery('now', this)">היום וחוויות מיוחדות 🌟</button>
+        </div>
+
+        <div id="timeline-desc" class="timeline-description">מבט על כל תחנות החיים והרגעים המרגשים ביותר במסע.</div>
+        
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- 1 -->
+            <div class="gallery-item" data-category="youth">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/Dyd7v9TF/Whats-App-Image-2026-08-08-at-8-49-23-AM.jpg', 'אמא ואבא כשהיו צעירים')">
+                    <img src="https://i.postimg.cc/Dyd7v9TF/Whats-App-Image-2026-08-08-at-8-49-23-AM.jpg" alt="אמא ואבא כשהיו צעירים">
+                </div>
+                <p><strong>צעירים יפים</strong> - אמא ואבא כשהיו צעירים.</p>
+            </div>
+            <!-- 2 -->
+            <div class="gallery-item" data-category="youth">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/rFL8L87v/Whats-App-Image-2026-08-08-at-8-49-23-AM-(1).jpg', 'ימי בית הספר - אמא צעירה עם חברות')">
+                    <img src="https://i.postimg.cc/rFL8L87v/Whats-App-Image-2026-08-08-at-8-49-23-AM-(1).jpg" alt="אמא צעירה עם חברות בבית ספר">
+                </div>
+                <p><strong>ימי בית הספר</strong> - אמא צעירה עם חברות.</p>
+            </div>
+            <!-- 3 -->
+            <div class="gallery-item" data-category="family">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/fR9pWXXc/DSC-0271-1.jpg', 'רגע משפחתי מתוק')">
+                    <img src="https://i.postimg.cc/fR9pWXXc/DSC-0271-1.jpg" alt="רגע משפחתי מתוק">
+                </div>
+                <p><strong>רגע משפחתי מתוק</strong> - זיכרון מהאלבום המשפחתי.</p>
+            </div>
+            <!-- 4 -->
+            <div class="gallery-item" data-category="family">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/NFnCBfj5/DSC-0220-1.jpg', 'ביחד בבית ובטבע')">
+                    <img src="https://i.postimg.cc/NFnCBfj5/DSC-0220-1.jpg" alt="ביחד בבית ובטבע">
+                </div>
+                <p><strong>ביחד בבית ובטבע</strong> - עוד רגע משפחתי נפלא.</p>
+            </div>
+            <!-- 5 -->
+            <div class="gallery-item" data-category="family">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/Fz6CNsHf/DSC-0516.jpg', 'חגיגה משפחתית')">
+                    <img src="https://i.postimg.cc/Fz6CNsHf/DSC-0516.jpg" alt="חגיגה משפחתית">
+                </div>
+                <p><strong>חגיגה משפחתית</strong> - שמחה וביחד.</p>
+            </div>
+            <!-- 6 -->
+            <div class="gallery-item" data-category="family">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/h4Z59M1Q/Pic-9.jpg', 'רגעים של קסם')">
+                    <img src="https://i.postimg.cc/h4Z59M1Q/Pic-9.jpg" alt="רגעים של קסם">
+                </div>
+                <p><strong>רגעים של קסם</strong> - המשפחה מתאגדת.</p>
+            </div>
+            <!-- 7 (הפתעה משפחתית אינטראקטיבית) -->
+            <div class="gallery-item" data-category="family">
+                <div class="gallery-img-container" onclick="toggleFamilySurprise(this)" id="family-surprise-container" title="לחצו כאן להפתעה! ✨" style="position: relative;">
+                    <img id="family-surprise-img" src="https://i.postimg.cc/GhZgf2N0/122727411-206455034-dsny-Res-base-dsny-Loc-reg.jpg" alt="זמן איכות משפחתי" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background-color: rgba(59, 46, 74, 0.9); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; border: 1px solid #d8b4e2; pointer-events: none;" id="family-surprise-badge">לחצו להפתעה ✨</div>
+                </div>
+                <p id="family-surprise-caption"><strong>זמן איכות משפחתי</strong> - טיול או בילוי משותף.</p>
+            </div>
+            <!-- 8 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/L6Bm9cM7/Whats-App-Image-2026-08-08-at-8-49-23-AM-(10).jpg', 'קריירה וסטייל - אמא בעבודה')">
+                    <img src="https://i.postimg.cc/L6Bm9cM7/Whats-App-Image-2026-08-08-at-8-49-23-AM-(10).jpg" alt="אמא בעבודה">
+                </div>
+                <p><strong>קריירה וסטייל</strong> - אמא בעבודה.</p>
+            </div>
+            <!-- 9 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/rFCqVBL3/Whats-App-Image-2026-08-08-at-8-49-23-AM-(11).jpg', 'התחפושת המשפחתית - כל המשפחה מחופשים')">
+                    <img src="https://i.postimg.cc/rFCqVBL3/Whats-App-Image-2026-08-08-at-8-49-23-AM-(11).jpg" alt="המשפחה מחופשים">
+                </div>
+                <p><strong>התחפושת המשפחתית</strong> - כל המשפחה מחופשים (מצחיק!).</p>
+            </div>
+            <!-- 10 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/pXYPWwt3/Whats-App-Image-2026-08-08-at-8-49-23-AM-(12).jpg', 'השפית של הבית - אמא בסדנת אפייה')">
+                    <img src="https://i.postimg.cc/pXYPWwt3/Whats-App-Image-2026-08-08-at-8-49-23-AM-(12).jpg" alt="אמא בסדנת אפייה">
+                </div>
+                <p><strong>השפית של הבית</strong> - אמא בסדנת אפייה.</p>
+            </div>
+            <!-- 11 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/m2NTLvG0/Whats-App-Image-2026-08-08-at-8-49-23-AM-(13).jpg', 'הגרעין המתוק - אמא, אבא ואור')">
+                    <img src="https://i.postimg.cc/m2NTLvG0/Whats-App-Image-2026-08-08-at-8-49-23-AM-(13).jpg" alt="אמא אבא ואור">
+                </div>
+                <p><strong>הגרעין המתוק</strong> - אמא, אבא ואור.</p>
+            </div>
+            <!-- 12 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/GhJbLW1W/Whats-App-Image-2026-08-08-at-8-49-23-AM-(14).jpg', 'יום האם החגיגי - אמא עם בלונים')">
+                    <img src="https://i.postimg.cc/GhJbLW1W/Whats-App-Image-2026-08-08-at-8-49-23-AM-(14).jpg" alt="אמא עם בלונים ליום האם">
+                </div>
+                <p><strong>יום האם החגיגי</strong> - אמא עם בלונים מרגשים.</p>
+            </div>
+            <!-- 13 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/vHLGYJsw/Whats-App-Image-2026-08-08-at-8-49-23-AM-(15).jpg', 'טיולים וחוויות - אמא ושני ילדיה בטבע')">
+                    <img src="https://i.postimg.cc/vHLGYJsw/Whats-App-Image-2026-08-08-at-8-49-23-AM-(15).jpg" alt="אמא ושני ילדיה בטיול">
+                </div>
+                <p><strong>טיולים וחוויות</strong> - אמא ושני ילדיה בטבע.</p>
+            </div>
+            <!-- 14 -->
+            <div class="gallery-item" data-category="youth">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/PrzdXgjs/Whats-App-Image-2026-08-08-at-8-49-23-AM-(16).jpg', 'נוסטלגיה קסומה - אמא צעירה')">
+                    <img src="https://i.postimg.cc/PrzdXgjs/Whats-App-Image-2026-08-08-at-8-49-23-AM-(16).jpg" alt="אמא צעירה">
+                </div>
+                <p><strong>נוסטלגיה קסומה</strong> - רגעים יפים מפעם.</p>
+            </div>
+            <!-- 15 -->
+            <div class="gallery-item" data-category="youth">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/hPbKDkBF/Whats-App-Image-2026-08-08-at-8-49-23-AM-(17).jpg', 'תחנות בחיים - אמא צעירה')">
+                    <img src="https://i.postimg.cc/hPbKDkBF/Whats-App-Image-2026-08-08-at-8-49-23-AM-(17).jpg" alt="אמא צעירה">
+                </div>
+                <p><strong>תחנות בחיים</strong> - אמא צעירה ויפה.</p>
+            </div>
+            <!-- 16 -->
+            <div class="gallery-item" data-category="youth">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/FsghrM4Q/Whats-App-Image-2026-08-08-at-8-49-23-AM-(18).jpg', 'חיוך של פעם - אמא צעירה')">
+                    <img src="https://i.postimg.cc/FsghrM4Q/Whats-App-Image-2026-08-08-at-8-49-23-AM-(18).jpg" alt="אמא צעירה">
+                </div>
+                <p><strong>חיוך של פעם</strong> - זיכרונות נהדרים.</p>
+            </div>
+            <!-- 17 -->
+            <div class="gallery-item" data-category="youth">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/gkqGzCPM/Whats-App-Image-2026-08-08-at-8-49-23-AM-(2).jpg', 'תמונת אלבום - אמא בצעירותה')">
+                    <img src="https://i.postimg.cc/gkqGzCPM/Whats-App-Image-2026-08-08-at-8-49-23-AM-(2).jpg" alt="אמא צעירה">
+                </div>
+                <p><strong>תמונת אלבום</strong> - אמא בצעירותה.</p>
+            </div>
+            <!-- 18 -->
+            <div class="gallery-item" data-category="youth">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/ncYnFytT/Whats-App-Image-2026-08-08-at-8-49-23-AM-(3).jpg', 'סטייל שאין דומה לו - אמא פעם')">
+                    <img src="https://i.postimg.cc/ncYnFytT/Whats-App-Image-2026-08-08-at-8-49-23-AM-(3).jpg" alt="אמא צעירה">
+                </div>
+                <p><strong>סטייל שאין דומה לו</strong> - אמא פעם.</p>
+            </div>
+            <!-- 19 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/m2NTLvGX/Whats-App-Image-2026-08-08-at-8-49-23-AM-(4).jpg', 'הזוג המושלם - אמא ואבא כיום')">
+                    <img src="https://i.postimg.cc/m2NTLvGX/Whats-App-Image-2026-08-08-at-8-49-23-AM-(4).jpg" alt="אמא ואבא כיום">
+                </div>
+                <p><strong>הזוג המושלם</strong> - אמא ואבא כיום.</p>
+            </div>
+            <!-- 20 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/bNHqy7jm/Whats-App-Image-2026-08-08-at-8-49-23-AM-(5).jpg', 'בילויים טובים - אמא במסעדה')">
+                    <img src="https://i.postimg.cc/bNHqy7jm/Whats-App-Image-2026-08-08-at-8-49-23-AM-(5).jpg" alt="אמא במסעדה">
+                </div>
+                <p><strong>בילויים טובים</strong> - אמא במסעדה.</p>
+            </div>
+            <!-- 21 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/7YMqHFyt/Whats-App-Image-2026-08-08-at-8-49-23-AM-(6).jpg', 'דייט משותף - אמא ואבא במסעדה')">
+                    <img src="https://i.postimg.cc/7YMqHFyt/Whats-App-Image-2026-08-08-at-8-49-23-AM-(6).jpg" alt="אמא ואבא במסעדה">
+                </div>
+                <p><strong>דייט משותף</strong> - אמא ואבא במסעדה.</p>
+            </div>
+            <!-- 22 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/fTjMzGhg/Whats-App-Image-2026-08-08-at-8-49-23-AM-(7).jpg', 'זמן איכות - אמא ואני במסעדה')">
+                    <img src="https://i.postimg.cc/fTjMzGhg/Whats-App-Image-2026-08-08-at-8-49-23-AM-(7).jpg" alt="אמא ואני במסעדה">
+                </div>
+                <p><strong>זמן איכות</strong> - אמא ואני במסעדה.</p>
+            </div>
+            <!-- 23 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/5Nqf4hMR/Whats-App-Image-2026-08-08-at-8-49-23-AM-(8).jpg', 'חוויות בלתי נשכחות - אמא, אני ואור בהופעה של טיילור סוויפט!')">
+                    <img src="https://i.postimg.cc/5Nqf4hMR/Whats-App-Image-2026-08-08-at-8-49-23-AM-(8).jpg" alt="אמא אני ואור בהופעה של טיילור סוויפט">
+                </div>
+                <p><strong>חוויות בלתי נשכחות</strong> - אמא, אני ואור בהופעה של טיילור סוויפט! ✨</p>
+            </div>
+            <!-- 24 -->
+            <div class="gallery-item" data-category="now">
+                <div class="gallery-img-container" onclick="openLightbox('https://i.postimg.cc/8PBTp2VY/Whats-App-Image-2026-08-08-at-8-49-23-AM-(9).jpg', 'ביחד זה הכי טוב - המשפחה כולה')">
+                    <img src="https://i.postimg.cc/8PBTp2VY/Whats-App-Image-2026-08-08-at-8-49-23-AM-(9).jpg" alt="תמונה של כל המשפחה">
+                </div>
+                <p><strong>ביחד זה הכי טוב</strong> - המשפחה כולה.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- עמוד 3: ספר ברכות אינטראקטיבי וסרטון ברכות -->
+    <div id="wishes" class="page-section">
+        <h2 class="section-title">טור אישי וברכות</h2>
+        <p style="color: #7a6e88; margin-bottom: 25px;">מילים חמות מהאנשים שהכי אוהבים</p>
+
+        <div class="wishes-grid">
+            <!-- ברכה 1 -->
+            <div class="wish-card">
+                <div>
+                    <h4>מאת: אבא</h4>
+                    <div class="wish-preview">אשת חיל שלי, הלב הפועם של הבית והעוגן של כולנו...</div>
+                    <div id="full-1" class="wish-full">אשת חיל שלי, הלב הפועם של הבית והעוגן של כולנו. מזל טוב על חצי מאה של קסם אין-סופי, של צחוק משותף, של תמיכה בלתי פוסקת ושל אהבה שרק הולכת וגדלה עם השנים. אין ראויה ממך לחגיגה הזו!</div>
+                </div>
+                <button class="expand-btn" onclick="toggleWish(1, this)">לקריאת הברכה 📖</button>
+            </div>
+
+            <!-- ברכה 2 -->
+            <div class="wish-card">
+                <div>
+                    <h4>מאת: הילדים</h4>
+                    <div class="wish-preview">לאמא הכי אלגנטית, מצחיקה ותומכת בעולם...</div>
+                    <div id="full-2" class="wish-full">לאמא הכי אלגנטית, מצחיקה ותומכת בעולם. תודה שאת תמיד שם בשבילנו לכל עצה, חיבוק וגב איתן. את הדוגמה שלנו להשראה ולחוזק, ואנחנו אוהבים אותך עד הירח וחזרה!</div>
+                </div>
+                <button class="expand-btn" onclick="toggleWish(2, this)">לקריאת הברכה 📖</button>
+            </div>
+
+            <!-- ברכה 3 -->
+            <div class="wish-card">
+                <div>
+                    <h4>מאת: החברות הטובות</h4>
+                    <div class="wish-preview">לשותפה המושלמת לקפה, לטיולים ולצחוקים...</div>
+                    <div id="full-3" class="wish-full">לשותפה המושלמת לקפה, לטיולים ולצחוקים הכי טובים בחיים. שתמשיכי לזהור, לכבוש כל יעד חדש ולפזר אור לכל סובבייך בדיוק כמו שאת יודעת. יום הולדת שמח מהלב!</div>
+                </div>
+                <button class="expand-btn" onclick="toggleWish(3, this)">לקריאת הברכה 📖</button>
+            </div>
+        </div>
+
+        <!-- אזור ייעודי לסרטון הברכות -->
+        <div class="wishes-video-section">
+            <h3>🎥 סרטון הברכות המיוחד</h3>
+            <p>רגעים מצולמים ומלאי אהבה במיוחד בשבילך</p>
+            <div class="video-wrapper">
+                <video controls width="100%">
+                    <source src="כאן_תדביקי_קישור_לסרטון.mp4" type="video/mp4">
+                    הדפדפן שלך לא תומך בהצגת סרטונים.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- חלון הגדלת תמונה (Lightbox Modal) -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img id="lightbox-img" src="" alt="תמונה מוגדלת">
+        <div id="lightbox-caption"></div>
+    </div>
+
+    <!-- סקריפט לניהול העמודים, ציר הזמן, הברכות והתמונות -->
+    <script>
+        function switchPage(pageId, buttonElement) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function filterGallery(category, btnElement) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.timeline-btn');
+            const descElement = document.getElementById('timeline-desc');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            if (category === 'all') {
+                descElement.textContent = "מבט על כל תחנות החיים והרגעים המרגשים ביותר במסע.";
+            } else if (category === 'youth') {
+                descElement.textContent = "🌸 נעורים ופעם: השנים היפות, ימי בית הספר והנוסטלגיה הקסומה.";
+            } else if (category === 'family') {
+                descElement.textContent = "🏡 המשפחה גדלה: בניית הקן, הילדים, העבודה והרגעים המצחיקים יחד.";
+            } else if (category === 'now') {
+                descElement.textContent = "🌟 היום וחוויות מיוחדות: בילויים, סדנאות, טיולים והופעות בלתי נשכחות!";
+            }
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleWish(id, btnElement) {
+            const fullText = document.getElementById('full-' + id);
+            if (fullText.style.display === 'block') {
+                fullText.style.display = 'none';
+                btnElement.textContent = 'לקריאת הברכה 📖';
+            } else {
+                fullText.style.display = 'block';
+                btnElement.textContent = 'סגור ברכה 🔼';
+            }
+        }
+
+        let isSurprise = false;
+        function toggleSurprisePhoto() {
+            const imgElement = document.getElementById('main-cover-img');
+            const badgeElement = document.getElementById('surprise-text');
+            
+            const originalPhoto = "https://i.postimg.cc/mkzmrfq9/1d74fc8a-f654-4a60-b19b-d3f3cf3e8368.jpg";
+            const surprisePhoto = "https://i.postimg.cc/cCgFJyjY/5a4294ad-5308-4506-8cba-0413ae02bc4f.jpg";
+
+            if (!isSurprise) {
+                imgElement.src = surprisePhoto;
+                badgeElement.textContent = "חזרה לתמונה הרגילה 🔄";
+                isSurprise = true;
+            } else {
+                imgElement.src = originalPhoto;
+                badgeElement.textContent = "לחצו כאן להפתעה ✨";
+                isSurprise = false;
+            }
+        }
+
+        let isFamilySurprise = false;
+        function toggleFamilySurprise(containerElement) {
+            const imgElement = document.getElementById('family-surprise-img');
+            const badgeElement = document.getElementById('family-surprise-badge');
+            
+            const originalPhoto = "https://i.postimg.cc/GhZgf2N0/122727411-206455034-dsny-Res-base-dsny-Loc-reg.jpg";
+            const surprisePhoto = "https://i.postimg.cc/kXkYH4ZX/20191111-074901.jpg";
+
+            if (!isFamilySurprise) {
+                imgElement.src = surprisePhoto;
+                badgeElement.textContent = "חזרה לתמונה הרגילה 🔄";
+                isFamilySurprise = true;
+            } else {
+                imgElement.src = originalPhoto;
+                badgeElement.textContent = "לחצו להפתעה ✨";
+                isFamilySurprise = false;
+            }
+        }
+
+        function openLightbox(imgSrc, captionText) {
+            const modal = document.getElementById('lightbox-modal');
+            const modalImg = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            
+            modal.style.display = 'flex';
+            modalImg.src = imgSrc;
+            caption.textContent = captionText;
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
